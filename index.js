@@ -4,15 +4,15 @@ const cors = require("cors")
 const cookieParser = require("cookie-parser")
 const { customerProtected, plumberProtected, adminProtected } = require("./middlewares/auth.middleware")
 require("dotenv").config()
-// const path = require("path")
+const path = require("path")
 
 const app = express()
 
 app.use(express.json())
-// app.use(express.static("dist"))
+app.use(express.static("dist"))
 app.use(cookieParser())
 app.use(cors({
-    origin: " http://localhost:5173",
+    origin: " https://home-experts.onrender.com",
     credentials: true
 }))
 
@@ -23,8 +23,8 @@ app.use("/api/customer", customerProtected, require("./routes/customer.routes"))
 app.use("/api/plumber", plumberProtected, require("./routes/plumber.routes"))
 
 app.use("*", (req, res) => {
-    // res.sendFile(path.join(__dirname, "dist", "index.html"))
-    res.status(404).json({ message: "resource not found" })
+    res.sendFile(path.join(__dirname, "dist", "index.html"))
+    // res.status(404).json({ message: "resource not found" })
 })
 
 app.use((err, req, res, next) => {
